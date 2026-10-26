@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env*
+*.sqlite
+*.sqlite3
+*.db
+Cookies
+Cookies-*
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite-journal
+.idea/
+*.iml
+*.png

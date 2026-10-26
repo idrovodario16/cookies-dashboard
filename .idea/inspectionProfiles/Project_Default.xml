@@ -1,0 +1,34 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="CssUnusedSymbol" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="DjangoUnresolvedFilterInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="DjangoUnresolvedTagInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="ES6ConvertVarToLetConst" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="HtmlUnknownTarget" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JSUnresolvedLibraryURL" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="JSUnresolvedReference" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyBroadExceptionInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyDocstringTypesInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E302" />
+          <option value="E305" />
+          <option value="E501" />
+          <option value="E303" />
+          <option value="W292" />
+          <option value="E265" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="threading" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="QodanaSanity" enabled="true" level="ERROR" enabled_by_default="true" />
+  </profile>
+</component>

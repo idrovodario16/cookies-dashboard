@@ -1,0 +1,77 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.container {
+    width: 80%;
+}
+
+.card {
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+
+}
+
+.card-header h2 {
+    margin: 0;
+    padding: 15px;
+}
+
+.card-header,
+.card-body {
+    padding-top: 1px;
+}
+
+
+.alert {
+    border-radius: 0;
+}
+
+.alert-heading {
+    margin: auto;
+}
+
+.alert-bonus {
+    /* Estilo adicional para el color de bonificación */
+}
+
+.list-group-item {
+    border-radius: 0;
+}
+
+.table th,
+.table td {
+    border: none;
+}
+
+.custom-card {
+    margin: 10px;
+    width: 100%;
+    background-color: #f8f9fa; /* Color de fondo para las tarjetas personalizadas */
+    border: 1px solid #ced4da; /* Borde para las tarjetas personalizadas */
+    border-radius: 10px; /* Borde redondeado para las tarjetas personalizadas */
+    padding: 20px; /* Espaciado interno para las tarjetas personalizadas */
+}
+
+.custom-alert {
+    border-radius: 10px; /* Borde redondeado para los alertas personalizados */
+}
+
+.custom-form {
+    margin-bottom: 20px; /* Margen inferior para los formularios personalizados */
+}
+
+.form-group input,
+.form-group button{
+    margin: 5px;
+}

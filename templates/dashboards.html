@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Cookies</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="overflow-x: hidden;">
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Dashboard de Cookies</h1>
+
+    <!-- Sección para Número de Páginas Únicas, ALERTA y BONO -->
+    <div class="row justify-content-center mb-4 col-12">
+        <div class="col-md-4">
+            <div style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" class="card-header card h-100 alert aler-info custom-alert text-center" role="alert">
+                <h3 style="margin: auto">Páginas Únicas: {{ num_unique_pages }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" class="card-header card alert alert-info h-100 custom-alert text-center" role="alert">
+                <h3 style="margin: auto">Cookies de Sesión: {{ num_session_cookies }}</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            {% if user_password_records_chrome or user_password_records_mozilla %}
+                <div style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" class="card-header card alert alert-danger h-100 custom-alert text-center" role="alert">
+                    <h3 style="margin: auto">USUARIOS ENCONTRADOS</h3>
+                </div>
+            {% else %}
+                <div style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" class="card-header card alert alert-success h-100 custom-alert text-center" role="alert">
+                    <h3 style="margin: auto">USUARIOS NO ENCONTRADOS</h3>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Sección para Top de Páginas Visitadas, número de cookies de chrome y número de cookies de mozilla -->
+    <div class="row justify-content-center mb-4 col-12">
+        <div class="col-md-4">
+            <div class="card custom-card mx-auto"> <!-- Centrar y ajustar tamaño de tarjeta -->
+                <div class="card-header">
+                    <h4 class="text-center">Top de Páginas Visitadas</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Formulario para actualizar el número de páginas -->
+                    <form method="post" action="{{ url_for('dashboard') }}" class="custom-form">
+                        <div class="form-group mb-4 d-flex align-items-center justify-content-center"> <!-- Centrar elementos del formulario -->
+                            <input type="number" class="form-control mr-2" id="top-pages-input" name="top_pages" placeholder="Top Páginas" value="" min="1">
+                            <button type="submit" class="btn btn-primary">Actualizar Top</button>
+                        </div>
+                    </form>
+                    <!-- Gráfico de barras de Top de Páginas Visitadas -->
+                    <div class="d-flex justify-content-center">
+                        <canvas id="top-pages-bar-chart" width="270" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card custom-card mx-auto"> <!-- Centrar y ajustar tamaño de tarjeta -->
+                <div class="card-header">
+                    <h4 class="text-center">Cookies de Chrome: {{ num_cookies_chrome }}</h4>
+                </div>
+                    <div class="d-flex justify-content-center">
+                        <canvas id="chrome-cookies-area-chart" style="padding: 10px" width="250" height="300"></canvas>
+                    </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card custom-card mx-auto"> <!-- Centrar y ajustar tamaño de tarjeta -->
+                <div class="card-header">
+                    <h4 class="text-center">Cookies de Mozilla: {{ num_cookies_mozilla }}</h4>
+                </div>
+                    <div class="d-flex justify-content-center">
+                        <canvas id="mozilla-cookies-area-chart" style="padding: 10px" width="250" height="300"></canvas>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección para Tabla de Registros de Cookies Encontradas y Lista de Nombres de Usuario y Contraseñas Encontradas -->
+    <div class="mt-4 col-12">
+        <div class="row">
+            <!-- Columna para la tabla -->
+            <div class="col-md-7">
+                <h2 class="text-center">Registros de Cookies </h2>
+                <div class="table-responsive">
+                    <table class="table table-striped w-100">
+                        <thead>
+                        <tr>
+                            <th>Navegador</th>
+                            <th>Dominio</th>
+                            <th>Nombre de Cookie</th>
+                            <th>Valor de Cookie</th>
+                            <th>Expires UTC</th>
+                            <th>Is Secure</th>
+                            <th>Is HttpOnly</th>
+                            <th>Last Access UTC</th>
+                        </tr>
+                        </thead>
+                        <tbody id="cookie-table-body">
+                        {% for chrome_cookie, mozilla_cookie in cookies_combined %}
+                            <tr>
+                                <td>Chrome</td>
+                                <td>{{ chrome_cookie[1] }}</td> <!-- Dominio -->
+                                <td>{{ chrome_cookie[3] }}</td> <!-- Nombre de Cookie -->
+                                <td>{{ chrome_cookie[4] }}</td> <!-- Valor de Cookie -->
+                                <td>{{ chrome_cookie[7] }}</td> <!-- Expires UTC -->
+                                <td>{{ chrome_cookie[8] }}</td> <!-- Is Secure -->
+                                <td>{{ chrome_cookie[9] }}</td> <!-- Is HttpOnly -->
+                                <td>{{ chrome_cookie[10] }}</td> <!-- Last Access UTC -->
+                            </tr>
+                            <tr>
+                                <td>Firefox</td>
+                                <td>{{ mozilla_cookie[4] }}</td> <!-- Host -->
+                                <td>{{ mozilla_cookie[2] }}</td> <!-- Nombre de Cookie -->
+                                <td>{{ mozilla_cookie[3] }}</td> <!-- Valor de Cookie -->
+                                <td>{{ mozilla_cookie[6] }}</td> <!-- Expiry -->
+                                <td>{{ mozilla_cookie[9] }}</td> <!-- Is Secure -->
+                                <td>{{ mozilla_cookie[10] }}</td> <!-- Is HttpOnly -->
+                                <td>{{ mozilla_cookie[7] }}</td> <!-- Last Accessed -->
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Botones para paginación -->
+                <div class="mt-2" id="pagination-buttons">
+                </div>
+            </div>
+
+            <!-- Columna para la lista de nombres de usuario y contraseñas -->
+            <div class="col-md-5">
+                <h2 class="text-center"> Usuario - Contraseñas </h2>
+                <ul class="list-group" id="user-password-list">
+                    {% for username, password in user_password_records_chrome %}
+                        <li class="list-group-item">{{ username }} - {{ password }}</li>
+                    {% endfor %}
+                    {% for username, password in user_password_records_mozilla %}
+                        <li class="list-group-item">{{ username }} - {{ password }}</li>
+                    {% endfor %}
+                </ul>
+                <!-- Botones de paginación -->
+                <div class="mt-2" id="user-password-pagination-buttons">
+                    <!-- Botones de paginación se generan dinámicamente aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+<!--SCRIPT PARA PAGINAR LA LISTA DE USUARIOS-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var itemsPerPage = 7; // Cambia este valor si deseas mostrar un número diferente de elementos por página
+        var currentPage = 1; // Página actual
+        var totalPages; // Total de páginas
+        var maxButtonsToShow = 8; // Número máximo de botones de paginación a mostrar
+
+        // Función para mostrar los elementos correspondientes a la página seleccionada
+        function displayItems() {
+            var startIndex = (currentPage - 1) * itemsPerPage;
+            var endIndex = startIndex + itemsPerPage;
+            var allItems = document.querySelectorAll("#user-password-list li");
+            allItems.forEach(function (item, index) {
+                if (index >= startIndex && index < endIndex) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        // Función para generar los botones de paginación
+        function generatePaginationButtons() {
+            var totalItems = document.querySelectorAll("#user-password-list li").length;
+            totalPages = Math.ceil(totalItems / itemsPerPage);
+            var paginationButtons = document.getElementById('user-password-pagination-buttons');
+            paginationButtons.innerHTML = ''; // Limpiar los botones de paginación existentes
+
+            var startPage = 1;
+            var endPage = totalPages;
+
+            if (totalPages > maxButtonsToShow) {
+                var halfMaxButtons = Math.floor(maxButtonsToShow / 2);
+                startPage = Math.max(currentPage - halfMaxButtons, 1);
+                endPage = Math.min(currentPage + halfMaxButtons, totalPages);
+
+                if (endPage - startPage + 1 < maxButtonsToShow) {
+                    var overflow = maxButtonsToShow - (endPage - startPage + 1);
+                    if (currentPage <= halfMaxButtons) {
+                        endPage += overflow;
+                    } else {
+                        startPage -= overflow;
+                    }
+                }
+            }
+
+            for (var i = startPage; i <= endPage; i++) {
+                var button = document.createElement('button');
+                button.textContent = i;
+                button.classList.add('btn', 'btn-primary', 'mx-1');
+                button.addEventListener('click', function () {
+                    currentPage = parseInt(this.textContent);
+                    displayItems();
+                    generatePaginationButtons(); // Regenerar los botones de paginación después de cambiar de página
+                });
+                paginationButtons.appendChild(button);
+            }
+        }
+
+        // Mostrar la primera página de elementos al cargar la página
+        displayItems();
+        // Generar los botones de paginación
+        generatePaginationButtons();
+    });
+</script>
+
+<!--SCRIPT PARA PAGINAR LA TABLA-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var rowsPerPage = 6; // Cambia este valor si deseas mostrar un número diferente de filas por página
+        var currentPage = 1; // Página actual
+
+        // Función para mostrar las filas correspondientes a la página seleccionada
+        function displayRows() {
+            var startIndex = (currentPage - 1) * rowsPerPage;
+            var endIndex = startIndex + rowsPerPage;
+            var allRows = document.querySelectorAll("#cookie-table-body tr");
+            allRows.forEach(function (row, index) {
+                if (index >= startIndex && index < endIndex) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        // Función para generar los botones de paginación
+        function generatePaginationButtons() {
+            var totalRows = document.querySelectorAll("#cookie-table-body tr").length;
+            var totalPages = Math.ceil(totalRows / rowsPerPage);
+            var paginationButtons = document.getElementById('pagination-buttons');
+            paginationButtons.innerHTML = ''; // Limpiar los botones de paginación existentes
+            for (var i = 1; i <= totalPages; i++) {
+                var button = document.createElement('button');
+                button.textContent = i;
+                button.classList.add('btn', 'btn-primary', 'mx-1');
+                button.addEventListener('click', function () {
+                    currentPage = parseInt(this.textContent);
+                    displayRows();
+                });
+                paginationButtons.appendChild(button);
+            }
+        }
+
+        // Mostrar la primera página de filas al cargar la página
+        displayRows();
+        // Generar los botones de paginación
+        generatePaginationButtons();
+    });
+</script>
+
+<!--SCRIPT PARA GRAFICAR EL NUMERO DE COOKIES DE CHROME Y MOZILLA-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctxChrome = document.getElementById('chrome-cookies-area-chart').getContext('2d');
+        var ctxMozilla = document.getElementById('mozilla-cookies-area-chart').getContext('2d');
+
+        var chromeCookiesChart = new Chart(ctxChrome, {
+            type: 'line',
+            data: {
+                labels: {{ list(host_visits_chrome.keys())|tojson }},
+                datasets: [{
+                    label: 'Número de Cookies - Chrome',
+                    data: {{ list(host_visits_chrome.values())|tojson }},
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Hosts'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var mozillaCookiesChart = new Chart(ctxMozilla, {
+            type: 'line',
+            data: {
+                labels: {{ list(host_visits_mozilla.keys())|tojson }},
+                datasets: [{
+                    label: 'Número de Cookies - Mozilla',
+                    data: {{ list(host_visits_mozilla.values())|tojson }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Hosts'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<!--SCRIPT PARA GRAFICAR TOP DE PAGINAS-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('top-pages-bar-chart').getContext('2d');
+        var topPagesBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ pages|tojson }},  // Acceder a los nombres de las páginas
+                datasets: [{
+                    label: 'Top Páginas Visitadas',
+                    data: {{ counts|tojson }},  // Acceder a los recuentos de las páginas
+                    backgroundColor: 'skyblue',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Páginas'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Visitadas'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+
+</body>
+</html>
