@@ -1,5 +1,8 @@
 # Cookies Privacy Analyzer
 
+[**Abrir demo pública →**](https://idrovodario16.github.io/cookies-dashboard/)
+
+
 **Resumen técnico:** dashboard local de análisis descriptivo de metadatos de cookies. Python y Flask en el backend; HTML/Jinja, CSS y JavaScript en la interfaz. Arquitectura cliente-servidor local con lectura de instantáneas SQLite en modo de solo lectura, resultados en memoria y exportación CSV/JSON. No usa una base persistente de resultados ni descifra valores de cookies.
 
 **Dashboard local para explorar metadatos de cookies de Chrome / Chromium y Firefox.**
@@ -178,7 +181,7 @@ La versión 2 conserva la finalidad educativa, sustituye esas interpretaciones p
 
 Versión pública de la interfaz con 36 metadatos ficticios, filtros, indicadores y exportación CSV/JSON. No recibe archivos SQLite ni consulta perfiles. El análisis de copias reales sigue disponible exclusivamente en la aplicación local con Flask.
 
-**Publicación:** archivos y flujo de despliegue preparados. La URL prevista es https://idrovodario16.github.io/cookies-dashboard/; solo estará disponible cuando GitHub Pages esté activado y el despliegue termine correctamente.
+**Demo pública:** [Abrir Cookies Privacy Analyzer](https://idrovodario16.github.io/cookies-dashboard/). Publicada en GitHub Pages mediante GitHub Actions.
 
 Para activarla: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Después ejecuta **Actions → Publicar demo en GitHub Pages → Run workflow**. Los cambios posteriores en `main` vuelven a desplegar automáticamente.
 
