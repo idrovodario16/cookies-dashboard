@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <meta name="description" content="Analizador local de metadatos de cookies. Demo ficticia, filtros y reportes sin valores de cookies.">
+  <title>Cookies Privacy Analyzer · DI</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./reports.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<header class="topbar"><a href="./" class="brand"><span class="mark">DI</span><span>Cookies<span class="brand-light"> / Privacy Analyzer</span></span></a><span class="local-badge"><i></i> Demo pública · datos ficticios</span></header>
+<div class="layout">
+  <aside class="sidebar">
+    <p class="nav-label">ESPACIO DE ANÁLISIS</p>
+    <nav aria-label="Vistas"><button class="nav-item active" id="nav-analysis" aria-current="page">◫ <span>Vista general</span></button><button class="nav-item" id="nav-guide">◎ <span>Cómo interpretar</span></button></nav>
+    <div class="sidebar-note"><span class="note-symbol">◇</span><strong>Metadatos, con contexto.</strong><p>Sin consultar valores de cookies, contraseñas ni historial de navegación.</p></div>
+    <p class="version">Demo estática · versión local con Python / Flask</p>
+  </aside>
+  <main id="main">
+    <section id="analysis-view">
+      <div class="eyebrow">PRIVACIDAD DEL NAVEGADOR</div>
+      <div class="page-heading"><div><h1>Entiende tus cookies.</h1><p class="subtitle">Explora dominios, persistencia y atributos. Cada dato, en su contexto.</p></div><a class="button primary" href="https://github.com/idrovodario16/cookies-dashboard#inicio-rápido">Analizar SQLite en versión local ↗</a></div>
+      <div class="source-banner"><div><span class="pill" id="mode-label">MODO DEMO</span><strong id="source-label">Preparando datos ficticios…</strong><p id="source-detail">No se accede a tu navegador.</p></div><button class="button ghost" id="reset-demo">Restablecer demo</button></div>
+      <div id="notice" role="status" aria-live="polite"></div>
+      <div class="metrics" aria-label="Resumen de los datos filtrados">
+        <article class="metric"><span>Cookies analizadas</span><strong id="metric-total">—</strong><small>Registros en la selección</small></article>
+        <article class="metric"><span>Dominios únicos</span><strong id="metric-domains">—</strong><small>Sin distinguir el punto inicial</small></article>
+        <article class="metric"><span>Con Secure</span><strong id="metric-secure">—</strong><small id="secure-detail">—</small></article>
+        <article class="metric"><span>Vencidas</span><strong id="metric-expired">—</strong><small>A la fecha del análisis</small></article>
+      </div>
+      <div class="charts">
+        <article class="panel"><div class="panel-title"><div><h2>Dominios con más cookies</h2><p>Recuentos de registros, no visitas.</p></div><span class="subtle">TOP 6</span></div><div id="domain-chart" class="bar-chart" aria-label="Cookies por dominio"></div></article>
+        <article class="panel"><div class="panel-title"><div><h2>Atributos y persistencia</h2><p>Indicadores descriptivos de la selección.</p></div></div><dl class="attribute-list" id="attribute-list"></dl><p class="chart-footnote">La ausencia de un atributo no demuestra una vulnerabilidad.</p></article>
+      </div>
+      <section class="panel records"><div class="panel-title"><div><h2>Explorador de cookies</h2><p id="record-count">Cargando…</p></div><div class="export-actions"><button class="button" id="export-csv">Exportar CSV</button><button class="button" id="export-json">JSON</button></div></div>
+        <div class="filters">
+          <label class="search-label">Buscar dominio o nombre<input id="search" type="search" placeholder="Ej. tienda.example" maxlength="253"></label>
+          <label>Navegador<select id="browser-filter"><option value="">Todos</option><option>Chrome / Chromium</option><option>Firefox</option></select></label>
+          <label>Estado<select id="status-filter"><option value="">Todos</option><option>Vigente</option><option>Vencida</option><option>Sesión</option><option>Desconocida</option></select></label>
+          <label>Secure<select id="secure-filter"><option value="">Todos</option><option value="true">Sí</option><option value="false">No</option><option value="null">Desconocido</option></select></label>
+          <label>HttpOnly<select id="http-filter"><option value="">Todos</option><option value="true">Sí</option><option value="false">No</option><option value="null">Desconocido</option></select></label>
+          <label>SameSite<select id="same-filter"><option value="">Todos</option><option>Lax</option><option>Strict</option><option>None</option><option>No especificado</option><option>Desconocido</option></select></label>
+          <button class="text-button" id="clear-filters">Limpiar</button>
+        </div>
+        <div class="table-wrap"><table><caption class="sr-only">Metadatos de cookies filtrados, sin valores sensibles</caption><thead><tr><th>Dominio / nombre</th><th>Navegador</th><th>Secure</th><th>HttpOnly</th><th>SameSite</th><th>Estado</th><th>Expiración UTC</th></tr></thead><tbody id="cookie-rows"></tbody></table></div>
+        <div id="empty-state" class="empty" hidden><strong>No hay cookies en esta selección.</strong><p>Cambia los filtros o vuelve a cargar la demo.</p></div>
+        <div class="pagination"><span id="page-info"></span><div><button class="button" id="prev-page" aria-label="Página anterior">← Anterior</button><button class="button" id="next-page" aria-label="Página siguiente">Siguiente →</button></div></div>
+      </section>
+      <section class="panel provenance"><h2>Procedencia y límites del análisis</h2><p>Los filtros afectan las métricas, gráficos y exportaciones. Los datos importados permanecen solo en la memoria de esta pestaña; al recargar se vuelve a la demo.</p><div id="provenance"></div></section>
+    </section>
+    <section id="guide-view" hidden><div class="eyebrow">GUÍA DE LECTURA</div><h1>Información, sin falsas alarmas.</h1><p class="subtitle">Esta herramienta describe metadatos. No certifica la seguridad de un sitio.</p><div class="guide-grid">
+      <article class="panel"><h2>Secure</h2><p>Indica que la cookie está restringida a transporte seguro según las reglas del navegador. Su ausencia requiere contexto sobre el uso de esa cookie.</p></article>
+      <article class="panel"><h2>HttpOnly</h2><p>Restringe el acceso desde JavaScript. Algunas preferencias legítimas necesitan ser leídas por scripts; no toda cookie requiere este atributo.</p></article>
+      <article class="panel"><h2>SameSite</h2><p>Lax, Strict y None describen restricciones de envío entre sitios. «No especificado» no equivale a None: el navegador puede aplicar valores por defecto.</p></article>
+      <article class="panel"><h2>Persistencia y vencimiento</h2><p>«Sesión» solo se muestra cuando el esquema aporta una señal compatible. En Firefox, sin isSession, esa condición se conserva como desconocida. Las fechas se muestran en UTC.</p></article>
+      <article class="panel"><h2>Qué no medimos</h2><p>No contamos visitas, identificamos personas, recuperamos contraseñas, desciframos cookies ni determinamos automáticamente si un dominio rastrea al usuario.</p></article>
+      <article class="panel"><h2>Privacidad de los reportes</h2><p>Los valores de cookies se excluyen desde la consulta SQL. Dominio, nombre y ruta también pueden revelar contexto personal: revisa los reportes antes de compartirlos.</p></article>
+    </div></section>
+  </main>
+</div>
+
+</body></html>
+

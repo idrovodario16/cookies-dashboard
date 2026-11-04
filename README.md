@@ -172,3 +172,14 @@ La versión 2 conserva la finalidad educativa, sustituye esas interpretaciones p
 ## Autor y alcance
 
 [Darío Idrovo](https://github.com/idrovodario16). Proyecto de portafolio y aprendizaje en desarrollo web, sistemas y privacidad. Las dependencias conservan sus propias licencias.
+
+
+## Demo para GitHub Pages
+
+Versión pública de la interfaz con 36 metadatos ficticios, filtros, indicadores y exportación CSV/JSON. No recibe archivos SQLite ni consulta perfiles. El análisis de copias reales sigue disponible exclusivamente en la aplicación local con Flask.
+
+**Publicación:** archivos y flujo de despliegue preparados. La URL prevista es https://idrovodario16.github.io/cookies-dashboard/; solo estará disponible cuando GitHub Pages esté activado y el despliegue termine correctamente.
+
+Para activarla: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Después ejecuta **Actions → Publicar demo en GitHub Pages → Run workflow**. Los cambios posteriores en `main` vuelven a desplegar automáticamente.
+
+La carpeta `demo/` es estática y no necesita Python. Para previsualizarla sirve esa carpeta con un servidor local.
