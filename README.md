@@ -1,5 +1,7 @@
 # Cookies Privacy Analyzer
 
+**Resumen técnico:** dashboard local de análisis descriptivo de metadatos de cookies. Python y Flask en el backend; HTML/Jinja, CSS y JavaScript en la interfaz. Arquitectura cliente-servidor local con lectura de instantáneas SQLite en modo de solo lectura, resultados en memoria y exportación CSV/JSON. No usa una base persistente de resultados ni descifra valores de cookies.
+
 **Dashboard local para explorar metadatos de cookies de Chrome / Chromium y Firefox.**
 
 Proyecto de **Darío Idrovo** enfocado en análisis descriptivo de privacidad y seguridad web. Incluye una demo ficticia, importación de copias SQLite, filtros y reportes. No escanea perfiles automáticamente, no recupera contraseñas y no descifra valores de cookies.
