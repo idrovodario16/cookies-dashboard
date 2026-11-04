@@ -151,7 +151,7 @@ node --test tests/test_reports.cjs
 
 Las pruebas cubren diferencias de esquema, fechas, atributos desconocidos, límites de muestra, ausencia de valores en respuestas, archivos inválidos, tablas no admitidas, preservación de bytes de entrada, CSRF, host/origen, carga de dos archivos y limpieza de temporales. No acceden a perfiles reales.
 
-Los resultados de la validación y el cambio respecto al proyecto original se documentan en [CHANGELOG.md](CHANGELOG.md). Las comprobaciones automáticas no demuestran compatibilidad con todos los navegadores ni sustituyen una auditoría de seguridad.
+Los resultados y límites de las pruebas están en [docs/VALIDATION.md](docs/VALIDATION.md); la evolución respecto al proyecto original está en [CHANGELOG.md](CHANGELOG.md). Las comprobaciones automáticas no demuestran compatibilidad con todos los navegadores ni sustituyen una auditoría de seguridad.
 
 ## Evolución del proyecto
 
