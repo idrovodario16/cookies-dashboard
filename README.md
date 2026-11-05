@@ -1,17 +1,12 @@
 # Cookies Privacy Analyzer
 
-[**Abrir demo pública →**](https://idrovodario16.github.io/cookies-dashboard/)
+Herramienta local para explorar metadatos de cookies de Chrome/Chromium y Firefox mediante copias SQLite autorizadas.
 
+**Stack:** Python/Flask, SQLite, HTML/Jinja, CSS y JavaScript.
 
-**Resumen técnico:** dashboard local de análisis descriptivo de metadatos de cookies. Python y Flask en el backend; HTML/Jinja, CSS y JavaScript en la interfaz. Arquitectura cliente-servidor local con lectura de instantáneas SQLite en modo de solo lectura, resultados en memoria y exportación CSV/JSON. No usa una base persistente de resultados ni descifra valores de cookies.
+**Estado:** herramienta educativa local y demo estática con datos ficticios. No descifra valores ni realiza una auditoría automática de seguridad.
 
-**Dashboard local para explorar metadatos de cookies de Chrome / Chromium y Firefox.**
-
-Proyecto de **Darío Idrovo** enfocado en análisis descriptivo de privacidad y seguridad web. Incluye una demo ficticia, importación de copias SQLite, filtros y reportes. No escanea perfiles automáticamente, no recupera contraseñas y no descifra valores de cookies.
-
-> Estado: v2.0, herramienta educativa local. No es un antivirus, un escáner de vulnerabilidades ni una herramienta forense certificada.
-
-![Dashboard con datos ficticios](docs/dashboard-demo.jpg)
+[Demo web](https://idrovodario16.github.io/cookies-dashboard/)
 
 ## Qué puedes hacer
 
@@ -183,6 +178,5 @@ Versión pública de la interfaz con 36 metadatos ficticios, filtros, indicadore
 
 **Demo pública:** [Abrir Cookies Privacy Analyzer](https://idrovodario16.github.io/cookies-dashboard/). Publicada en GitHub Pages mediante GitHub Actions.
 
-Para activarla: **Settings → Pages → Build and deployment → Source: GitHub Actions**. Después ejecuta **Actions → Publicar demo en GitHub Pages → Run workflow**. Los cambios posteriores en `main` vuelven a desplegar automáticamente.
 
 La carpeta `demo/` es estática y no necesita Python. Para previsualizarla sirve esa carpeta con un servidor local.
